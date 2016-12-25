@@ -43,10 +43,11 @@ public class LoginWindow{
 
         // Items in GridPane for LoginWindow
         Label userNameLbl = new Label("Username");
+        userNameLbl.setId("username-label");
         TextField userNameTxt = new TextField();
-        userNameTxt.setId("username-text");
 
         Label passwordLbl = new Label("Password");
+        passwordLbl.setId("password-label");
         PasswordField passwordTxt = new PasswordField();
 
         Button submitBtn = new Button("Login");
@@ -63,8 +64,6 @@ public class LoginWindow{
         gridPane.add(userNameTxt, 0, 2);
         gridPane.add(passwordLbl, 0, 3);
         gridPane.add(passwordTxt, 0, 4);
-        userNameLbl.setTextFill(Color.WHITE);
-        passwordLbl.setTextFill(Color.WHITE);
 
         hbBtn.getChildren().add(submitBtn);
         gridPane.add(hbBtn, 0, 6);

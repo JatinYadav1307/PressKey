@@ -51,11 +51,8 @@ public class SignupWindow {
         mainScene.getStylesheets().add("css/SignupWindowDesign.css");
 
         Label emailLabel = new Label("Email");
-        emailLabel.setTextFill(Color.WHITE);
         Label userNameLabel = new Label("Username");
-        userNameLabel.setTextFill(Color.WHITE);
         Label passwordLabel = new Label("Password");
-        passwordLabel.setTextFill(Color.WHITE);
         Button signupButton = new Button("Sign Up");
         Button clearButton = new Button("Clear All");
         HBox hboxButtons = new HBox(10);
