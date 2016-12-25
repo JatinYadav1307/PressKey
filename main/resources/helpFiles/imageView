@@ -1,0 +1,19 @@
+Items in StackPane for background art
+URL url = getClass().getResource("../images/loginScreen.png");
+String img = "";
+File file =  new File(url.getPath());
+try {
+     img = file.toURI().toURL().toString();
+}
+catch (Exception e)
+{
+     System.out.println(e.getMessage());
+     e.printStackTrace();
+}
+
+     Display background art in the scene
+     Image image = new Image(img);
+     ImageView imageView = new ImageView(image);
+     imageView.setFitHeight(350);
+     imageView.setFitWidth(610);
+     stackPane.getChildren().addAll(imageView,gridPane);

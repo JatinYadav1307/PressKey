@@ -1,0 +1,12 @@
+.text-field {
+    -fx-background-color: rgba(53,89,119,0.4);
+    -fx-pref-width: 400px;
+    -fx-pref-height: 40px;
+    -fx-border-radius: 0px, 0px, 0px, 0px;
+    -fx-font-size: 16px;
+    -fx-font-family: "Segoe UI";
+    -fx-text-inner-color: #FFFFFF;
+}
+.root {
+    -fx-background-image: url("../images/background.png");
+}
