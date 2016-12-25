@@ -39,7 +39,6 @@ public class SignupWindow {
     }
 
     public void launch() {
-
         signupStage = new Stage();
         GridPane gridPane = new GridPane();
         gridPane.setHgap(10);

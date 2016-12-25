@@ -15,8 +15,9 @@ public class SignupWindowController {
 
     private Connection connection;
 
-    public SignupWindowController() {
-        connection = new Connection("pressKeyUsers");
+    private Connection initializeDatabase(String databaseToConnect)
+    {
+        return new Connection(databaseToConnect);
     }
 
     public void clearButtonAction(ActionEvent event, GridPane gridPane)
@@ -37,6 +38,13 @@ public class SignupWindowController {
 
     public void signUpButtonAction(ActionEvent event, GridPane gridPane)
     {
+        Thread databaseInit = new Thread(() -> connection = initializeDatabase("pressKeyUsers"));
+        databaseInit.start();
+        try {
+            databaseInit.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         ArrayList<String> objectData = new ArrayList<>(0);
         for (Node node :
                 gridPane.getChildren()) {
@@ -50,7 +58,17 @@ public class SignupWindowController {
             }
         }
         User newUser = new User(objectData.get(0), objectData.get(1), objectData.get(2));
-        connection.getDatastore().save(newUser);
+        Thread databaseFunctions = new Thread(() -> {
+            connection.getDatastore().save(newUser);
+            connection.getMongoClient().close();
+        });
+
+        databaseFunctions.start();
+        try {
+            databaseFunctions.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         clearButtonAction(event, gridPane);
         System.out.println("DONE");
     }
