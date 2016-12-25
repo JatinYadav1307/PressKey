@@ -10,7 +10,6 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         splashWindow.splashScreen(primaryStage);
-        System.out.println("Hello World to GIT!");
     }
 
     public static void main(String[] args) {
