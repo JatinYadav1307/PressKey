@@ -1,18 +1,59 @@
 package controllers;
 
 import javafx.event.ActionEvent;
-import javafx.scene.control.Alert;
+import javafx.scene.Node;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import models.User;
+import mongoConnection.Connection;
+import org.mongodb.morphia.query.Query;
 import views.SignupWindow;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class LoginWindowController {
-    public void loginButtonAction(ActionEvent event)
+    private Connection connection;
+
+    private Connection initializeDatabase(String databaseToConnect)
     {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Hello There!");
-        alert.setHeaderText("You clicked Login Button");
-        alert.setContentText("Yes you've clicked it already, not don't!");
-        alert.showAndWait();
+        return new Connection(databaseToConnect);
+    }
+
+    public void loginButtonAction(ActionEvent event, GridPane gridPane)
+    {
+        Thread databaseInit = new Thread(() -> connection = initializeDatabase("pressKeyUsers"));
+        databaseInit.start();
+        try {
+            databaseInit.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        ArrayList<String> objectData = new ArrayList<>(0);
+        for (Node node : gridPane.getChildren()) {
+            if (node instanceof TextField)
+                objectData.add(((TextField) node).getText());
+            if (node instanceof PasswordField)
+                objectData.add(((PasswordField) node).getText());
+        }
+
+        // TODO: Validation for checking user login information
+        Query<User> query = connection.getDatastore().createQuery(User.class)
+                .field("userName").equal(objectData.get(0));
+        List<User> result = query.asList();
+
+        try {
+            if (result.get(0).getPassword().equals(objectData.get(1))) {
+                System.out.println("Login Pass!");
+            } else {
+                System.out.println("Login failed!");
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     public void signUpButtonAction(ActionEvent event, Stage inputStage)

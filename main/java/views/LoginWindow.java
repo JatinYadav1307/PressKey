@@ -91,7 +91,7 @@ public class LoginWindow{
         gridPane.add(hboxLogo, 0, 0);
 
         stackPane.getChildren().addAll(gridPane);
-        submitBtn.setOnAction(event -> loginWindowController.loginButtonAction(event));
+        submitBtn.setOnAction(event -> loginWindowController.loginButtonAction(event, gridPane));
         signUp.setOnAction(event -> loginWindowController.signUpButtonAction(event, loginStage));
 
         loginStage.setScene(scene);

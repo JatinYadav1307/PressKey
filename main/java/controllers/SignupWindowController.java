@@ -45,6 +45,7 @@ public class SignupWindowController {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        // TODO: Validation for Sign Up and make Email the primary key for this
         ArrayList<String> objectData = new ArrayList<>(0);
         for (Node node :
                 gridPane.getChildren()) {
