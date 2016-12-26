@@ -9,6 +9,7 @@ import mongoConnection.Connection;
 import mongoConnection.ConnectionHandler;
 import org.mongodb.morphia.query.Query;
 import views.SignupWindow;
+import views.ViewHandler;
 
 import java.util.HashMap;
 import java.util.List;
@@ -28,7 +29,7 @@ public class LoginWindowController {
             // TODO: Validation for checking user login information
             if (!passwordIsNull && !usernameIsNull) {
                 Query<User> query = connection.getDatastore().createQuery(User.class)
-                        .field("emailAddress").equal(email);
+                        .field("email").equal(email);
                 List<User> result = query.asList();
 
                 try {
@@ -46,12 +47,11 @@ public class LoginWindowController {
         }
     }
 
-    public void signUpButtonAction(ActionEvent event, Stage inputStage) {
-        SignupWindow signupWindow = new SignupWindow();
-        inputStage.hide();
-        signupWindow.launch();
-        signupWindow.getSignupStage().setOnCloseRequest(event1 -> {
-            inputStage.show();
+    public void signUpButtonAction(ActionEvent event) {
+        ViewHandler.loginWindow.getLoginStage().hide();
+        ViewHandler.signupWindow.launch();
+        ViewHandler.signupWindow.getSignupStage().setOnCloseRequest(event1 -> {
+            ViewHandler.loginWindow.getLoginStage().show();
         });
     }
 }

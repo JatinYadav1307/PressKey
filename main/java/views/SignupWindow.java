@@ -18,24 +18,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class SignupWindow {
-    private Stage signupStage;
-    private Scene mainScene;
+
     private SignupWindowController signupWindowController = new SignupWindowController();
+    private Stage signupStage;
 
     public Stage getSignupStage() {
         return signupStage;
-    }
-
-    public void setSignupStage(Stage signupStage) {
-        this.signupStage = signupStage;
-    }
-
-    public Scene getMainScene() {
-        return mainScene;
-    }
-
-    public void setMainScene(Scene mainScene) {
-        this.mainScene = mainScene;
     }
 
     public void launch() {
@@ -44,7 +32,7 @@ public class SignupWindow {
         gridPane.setHgap(10);
         gridPane.setVgap(5);
         gridPane.setAlignment(Pos.CENTER);
-        mainScene = new Scene(gridPane, 610, 400);
+        Scene mainScene = new Scene(gridPane, 610, 400);
 //        signupStage.initStyle(StageStyle.TRANSPARENT);
         mainScene.setFill(Color.TRANSPARENT);
         mainScene.getStylesheets().add("css/SignupWindowDesign.css");

@@ -8,22 +8,22 @@ import org.mongodb.morphia.annotations.Id;
 public class User {
     @Id
     private ObjectId objectId;
-    private String userName;
-    private String emailAddress;
+    private String username;
+    private String email;
     private String password;
 
     @Override
     public String toString() {
         return "User{" +
-                "userName='" + userName + '\'' +
-                ", emailAddress='" + emailAddress + '\'' +
+                "username='" + username + '\'' +
+                ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 '}';
     }
 
-    public User(String emailAddress, String userName, String password) {
-        this.userName = userName;
-        this.emailAddress = emailAddress;
+    public User(String email, String username, String password) {
+        this.username = username;
+        this.email = email;
         this.password = password;
     }
 
@@ -35,20 +35,20 @@ public class User {
         this.objectId = objectId;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
-    public String getEmailAddress() {
-        return emailAddress;
+    public String getEmail() {
+        return email;
     }
 
-    public void setEmailAddress(String emailAddress) {
-        this.emailAddress = emailAddress;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getPassword() {

@@ -1,7 +1,6 @@
 package views;
 
 import controllers.LoginWindowController;
-import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -22,11 +21,17 @@ import java.util.HashMap;
 public class LoginWindow {
 
     private LoginWindowController loginWindowController = new LoginWindowController();
+    private Stage loginStage;
+
+    public Stage getLoginStage() {
+//        launch();
+        return loginStage;
+    }
 
     public void launch() {
 
         // Initialize Items
-        Stage loginStage = new Stage();
+        loginStage = new Stage();
 
         // Stacking Pane
         StackPane stackPane = new StackPane();
@@ -95,7 +100,7 @@ public class LoginWindow {
 
         stackPane.getChildren().addAll(gridPane);
         submitButton.setOnAction(event -> loginWindowController.loginButtonAction(event, userFields));
-        signUp.setOnAction(event -> loginWindowController.signUpButtonAction(event, loginStage));
+        signUp.setOnAction(event -> loginWindowController.signUpButtonAction(event));
 
         loginStage.setScene(scene);
         loginStage.show();

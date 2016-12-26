@@ -12,9 +12,6 @@ import mongoConnection.ConnectionHandler;
 
 class SplashWindow {
 
-    private LoginWindow loginWindow = new LoginWindow();
-
-
     void splashScreen(Stage splashStage)
     {
         splashStage.initStyle(StageStyle.TRANSPARENT);
@@ -45,7 +42,7 @@ class SplashWindow {
 
         sleeper.setOnSucceeded(event -> {
             splashStage.close();
-            loginWindow.launch();
+            ViewHandler.loginWindow.launch();
         });
         new Thread(sleeper).start();
     }

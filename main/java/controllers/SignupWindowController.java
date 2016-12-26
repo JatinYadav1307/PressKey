@@ -7,6 +7,7 @@ import javafx.scene.control.TextField;
 import models.User;
 import mongoConnection.Connection;
 import mongoConnection.ConnectionHandler;
+import views.ViewHandler;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -14,10 +15,10 @@ import java.util.Map;
 
 public class SignupWindowController {
 
-    private Boolean validationsOn = true;
+    private Boolean validationsOn = false;
 
-    private static final String emailRegex = "^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+" +
-            "(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$";
+    private static final String emailRegex =
+            "^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$";
 
     public void clearButtonAction(ActionEvent event, HashMap<String, Node> userFields) {
         for (Map.Entry<String, Node> node : userFields.entrySet()) {
@@ -53,5 +54,7 @@ public class SignupWindowController {
             clearButtonAction(event, userFields);
             System.out.println("Sign Up Done!");
         }
+        ViewHandler.signupWindow.getSignupStage().close();
+        ViewHandler.loginWindow.getLoginStage().show();
     }
 }
