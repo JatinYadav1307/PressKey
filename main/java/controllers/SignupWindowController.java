@@ -4,47 +4,54 @@ import javafx.event.ActionEvent;
 import javafx.scene.Node;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.GridPane;
 import models.User;
 import mongoConnection.Connection;
 import mongoConnection.ConnectionHandler;
 
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class SignupWindowController {
 
-    private Connection connection;
+    private Boolean validationsOn = true;
 
-    public void clearButtonAction(ActionEvent event, GridPane gridPane) {
-        for (Node node :
-                gridPane.getChildren()) {
-            if (node instanceof TextField) {
-                ((TextField) node).setText("");
-            }
-            if (node instanceof PasswordField) {
-                ((PasswordField) node).setText("");
-            }
+    private static final String emailRegex = "^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+" +
+            "(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$";
+
+    public void clearButtonAction(ActionEvent event, HashMap<String, Node> userFields) {
+        for (Map.Entry<String, Node> node : userFields.entrySet()) {
+            Node currentNode = node.getValue();
+            if (currentNode instanceof TextField)
+                ((TextField) currentNode).setText("");
+            if (currentNode instanceof PasswordField)
+                ((PasswordField) currentNode).setText("");
         }
-        gridPane.getChildren().get(1).requestFocus();
     }
 
-    public void signUpButtonAction(ActionEvent event, GridPane gridPane) {
-        connection = ConnectionHandler.connection;
+    public void signUpButtonAction(ActionEvent event, HashMap<String, Node> userFields) {
+        Connection connection = ConnectionHandler.connection;
+        String email = ((TextField) userFields.get("email")).getText();
+        String username = ((TextField) userFields.get("username")).getText();
+        String password = ((TextField) userFields.get("password")).getText();
         // TODO: Validation for Sign Up and make Email the primary key for this
-        ArrayList<String> objectData = new ArrayList<>(0);
-        for (Node node :
-                gridPane.getChildren()) {
-            if (node instanceof TextField) {
-                objectData.add(((TextField) node).getText());
+        if (validationsOn) {
+            Boolean emailIsValid = email.matches(emailRegex);
+            Boolean passwordIsNull = password.isEmpty();
+            Boolean usernameIsNull = username.isEmpty();
+            if (emailIsValid && !passwordIsNull && !usernameIsNull) {
+                User newUser = new User(email, username, password);
+                connection.getDatastore().save(newUser);
+                clearButtonAction(event, userFields);
+                System.out.println("Sign Up Done!");
+            } else {
+                System.out.println("Invalid details!");
             }
-            if (node instanceof PasswordField) {
-                objectData.add(((PasswordField) node).getText());
-            }
+        } else {
+            User newUser = new User(email, username, password);
+            connection.getDatastore().save(newUser);
+            clearButtonAction(event, userFields);
+            System.out.println("Sign Up Done!");
         }
-        User newUser = new User(objectData.get(0), objectData.get(1), objectData.get(2));
-        connection.getDatastore().save(newUser);
-        clearButtonAction(event, gridPane);
-        System.out.println("DONE");
     }
 }

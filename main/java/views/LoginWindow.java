@@ -4,6 +4,7 @@ import controllers.LoginWindowController;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -16,13 +17,13 @@ import javafx.stage.Stage;
 
 import java.io.File;
 import java.net.URL;
+import java.util.HashMap;
 
-public class LoginWindow{
+public class LoginWindow {
 
     private LoginWindowController loginWindowController = new LoginWindowController();
 
-    public void launch()
-    {
+    public void launch() {
 
         // Initialize Items
         Stage loginStage = new Stage();
@@ -42,15 +43,15 @@ public class LoginWindow{
         gridPane.setAlignment(Pos.CENTER);
 
         // Items in GridPane for LoginWindow
-        Label userNameLbl = new Label("Username");
-        userNameLbl.setId("username-label");
-        TextField userNameTxt = new TextField();
+        Label emailLabel = new Label("Email");
+        emailLabel.setId("username-label");
+        TextField emailText = new TextField();
 
-        Label passwordLbl = new Label("Password");
-        passwordLbl.setId("password-label");
-        PasswordField passwordTxt = new PasswordField();
+        Label passwordLabel = new Label("Password");
+        passwordLabel.setId("password-label");
+        PasswordField passwordText = new PasswordField();
 
-        Button submitBtn = new Button("Login");
+        Button submitButton = new Button("Login");
         HBox hbBtn = new HBox(10);
         hbBtn.setPadding(new Insets(15, 0, 0, 0));
         hbBtn.setAlignment(Pos.BOTTOM_RIGHT);
@@ -60,23 +61,21 @@ public class LoginWindow{
 
 
         // Adding items to the pane
-        gridPane.add(userNameLbl, 0, 1);
-        gridPane.add(userNameTxt, 0, 2);
-        gridPane.add(passwordLbl, 0, 3);
-        gridPane.add(passwordTxt, 0, 4);
+        gridPane.add(emailLabel, 0, 1);
+        gridPane.add(emailText, 0, 2);
+        gridPane.add(passwordLabel, 0, 3);
+        gridPane.add(passwordText, 0, 4);
 
-        hbBtn.getChildren().add(submitBtn);
+        hbBtn.getChildren().add(submitButton);
         gridPane.add(hbBtn, 0, 6);
 
         // Logo Preview on Top
         URL url = getClass().getResource("../images/logo.png");
         String img = "";
-        File file =  new File(url.getPath());
+        File file = new File(url.getPath());
         try {
             img = file.toURI().toURL().toString();
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             System.out.println(e.getMessage());
             e.printStackTrace();
         }
@@ -90,8 +89,12 @@ public class LoginWindow{
         hboxLogo.getChildren().addAll(imageView);
         gridPane.add(hboxLogo, 0, 0);
 
+        HashMap<String, Node> userFields = new HashMap<>();
+        userFields.put("email", emailText);
+        userFields.put("password", passwordText);
+
         stackPane.getChildren().addAll(gridPane);
-        submitBtn.setOnAction(event -> loginWindowController.loginButtonAction(event, gridPane));
+        submitButton.setOnAction(event -> loginWindowController.loginButtonAction(event, userFields));
         signUp.setOnAction(event -> loginWindowController.signUpButtonAction(event, loginStage));
 
         loginStage.setScene(scene);

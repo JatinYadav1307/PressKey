@@ -2,11 +2,9 @@ package views;
 
 import controllers.SignupWindowController;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
@@ -16,6 +14,8 @@ import javafx.stage.Stage;
 
 import java.io.File;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 
 public class SignupWindow {
     private Stage signupStage;
@@ -59,6 +59,8 @@ public class SignupWindow {
         TextField emailText = new TextField();
         TextField userNameText = new TextField();
         PasswordField passwordText = new PasswordField();
+        Tooltip emailTooltip = new Tooltip("Enter a valid email address!");
+        emailText.setTooltip(emailTooltip);
 
         gridPane.add(emailLabel, 0, 1);
         gridPane.add(emailText, 0, 2);
@@ -72,12 +74,10 @@ public class SignupWindow {
         // Logo Preview on Top
         URL url = getClass().getResource("../images/logo.png");
         String img = "";
-        File file =  new File(url.getPath());
+        File file = new File(url.getPath());
         try {
             img = file.toURI().toURL().toString();
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             System.out.println(e.getMessage());
             e.printStackTrace();
         }
@@ -91,8 +91,13 @@ public class SignupWindow {
         hboxLogo.getChildren().addAll(imageView);
         gridPane.add(hboxLogo, 0, 0);
 
-        clearButton.setOnAction(event -> signupWindowController.clearButtonAction(event, gridPane));
-        signupButton.setOnAction(event -> signupWindowController.signUpButtonAction(event, gridPane));
+        HashMap<String, Node> userFields = new HashMap<>();
+        userFields.put("email", emailText);
+        userFields.put("username", userNameText);
+        userFields.put("password", passwordText);
+
+        clearButton.setOnAction(event -> signupWindowController.clearButtonAction(event, userFields));
+        signupButton.setOnAction(event -> signupWindowController.signUpButtonAction(event, userFields));
 
         signupStage.setScene(mainScene);
         signupStage.show();
