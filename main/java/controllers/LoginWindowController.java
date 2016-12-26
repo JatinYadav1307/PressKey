@@ -8,6 +8,7 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import models.User;
 import mongoConnection.Connection;
+import mongoConnection.ConnectionHandler;
 import org.mongodb.morphia.query.Query;
 import views.SignupWindow;
 
@@ -17,21 +18,9 @@ import java.util.List;
 public class LoginWindowController {
     private Connection connection;
 
-    private Connection initializeDatabase(String databaseToConnect)
-    {
-        return new Connection(databaseToConnect);
-    }
-
     public void loginButtonAction(ActionEvent event, GridPane gridPane)
     {
-        Thread databaseInit = new Thread(() -> connection = initializeDatabase("pressKeyUsers"));
-        databaseInit.start();
-        try {
-            databaseInit.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
+        connection = ConnectionHandler.connection;
         ArrayList<String> objectData = new ArrayList<>(0);
         for (Node node : gridPane.getChildren()) {
             if (node instanceof TextField)

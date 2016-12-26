@@ -8,10 +8,12 @@ import javafx.scene.paint.Color;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import mongoConnection.ConnectionHandler;
 
 class SplashWindow {
 
     private LoginWindow loginWindow = new LoginWindow();
+
 
     void splashScreen(Stage splashStage)
     {
@@ -37,6 +39,9 @@ class SplashWindow {
                 return null;
             }
         };
+
+        Thread connection = new Thread(() -> ConnectionHandler.generateConnection());
+        connection.start();
 
         sleeper.setOnSucceeded(event -> {
             splashStage.close();
