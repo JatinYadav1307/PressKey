@@ -36,7 +36,7 @@ public class TrainingWindow {
         gridPane.setHgap(10);
         gridPane.setAlignment(Pos.CENTER);
 
-        Label trainingText = new Label("The quick brown fox jumps over the \n lazy dog and dropped " +
+        Label trainingText = new Label("The quick brown fox jumps over the lazy dog  \n and dropped " +
                 "my box with five dozen liquor jugs.");
         trainingText.setId("training-text");
         gridPane.add(trainingText, 0, 1);
@@ -67,6 +67,10 @@ public class TrainingWindow {
         gridPane.add(hboxLogo, 0, 0);
 
         stackPane.getChildren().addAll(gridPane);
+
+        trainingArea.setOnKeyPressed(event -> trainingWindowController.keyPressEvent(event, System.nanoTime()));
+        trainingArea.setOnKeyReleased(event -> trainingWindowController.keyReleaseEvent(event, System.nanoTime()));
+        submitButton.setOnAction(event -> trainingWindowController.submitButton(event));
 
         trainingStage.setScene(scene);
         trainingStage.show();
