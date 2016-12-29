@@ -1,0 +1,22 @@
+.root {
+    -fx-background-image: url("/images/background.png");
+}
+
+#training-area {
+    -fx-background-color: rgba(53,89,119,0.4);
+    -fx-pref-height: 40px;
+    -fx-border-radius: 0px, 0px, 0px, 0px;
+    -fx-font-size: 14px;
+    -fx-font-family: "Segoe UI";
+    -fx-text-fill: #FFFFFF;
+}
+
+#training-text {
+    -fx-background-color: #1E202F;
+    -fx-pref-width: 500px;
+    -fx-text-alignment: center;
+    -fx-alignment: center;
+    -fx-wrap-text: true;
+    -fx-text-fill: #FFFFFF;
+    -fx-font-size: 15px;
+}

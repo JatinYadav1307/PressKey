@@ -24,7 +24,6 @@ public class LoginWindow {
     private Stage loginStage;
 
     public Stage getLoginStage() {
-//        launch();
         return loginStage;
     }
 
@@ -75,17 +74,8 @@ public class LoginWindow {
         gridPane.add(hbBtn, 0, 6);
 
         // Logo Preview on Top
-        URL url = getClass().getResource("../images/logo.png");
-        String img = "";
-        File file = new File(url.getPath());
-        try {
-            img = file.toURI().toURL().toString();
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            e.printStackTrace();
-        }
 
-        Image image = new Image(img);
+        Image image = new Image("images/logo.png");
         ImageView imageView = new ImageView(image);
         imageView.setFitHeight(104);
         imageView.setFitWidth(114);

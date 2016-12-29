@@ -35,10 +35,13 @@ public class LoginWindowController {
                 try {
                     if (result.get(0).getPassword().equals(password)) {
                         System.out.println("Login Pass!");
+                        ViewHandler.loginWindow.getLoginStage().close();
+                        ViewHandler.trainingWindow.launch();
                     } else {
                         System.out.println("Login failed!");
                     }
                 } catch (Exception e) {
+                    e.printStackTrace();
                     System.out.println("User not registered yet!");
                 }
             } else {
