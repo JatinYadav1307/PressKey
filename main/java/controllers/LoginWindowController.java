@@ -4,6 +4,7 @@ import javafx.event.ActionEvent;
 import javafx.scene.Node;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import models.Cookie;
 import models.User;
 import mongoConnection.Connection;
 import mongoConnection.ConnectionHandler;
@@ -11,6 +12,7 @@ import org.mongodb.morphia.query.Query;
 import views.SignupWindow;
 import views.ViewHandler;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -35,6 +37,8 @@ public class LoginWindowController {
                 try {
                     if (result.get(0).getPassword().equals(password)) {
                         System.out.println("Login Pass!");
+                        Cookie currentCookie = new Cookie(result.get(0), new Date());
+                        connection.getDatastore().save(currentCookie);
                         ViewHandler.loginWindow.getLoginStage().close();
                         ViewHandler.trainingWindow.launch();
                     } else {
