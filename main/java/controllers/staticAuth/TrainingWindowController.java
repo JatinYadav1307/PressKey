@@ -3,10 +3,18 @@ package controllers.staticAuth;
 import javafx.event.ActionEvent;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
+import models.Cookie;
+import models.User;
+import mongoConnection.Connection;
+import mongoConnection.ConnectionHandler;
+import org.mongodb.morphia.Key;
+import org.mongodb.morphia.query.Query;
 import supportClass.KeyStrokeDataValue;
+import views.Universal;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 public class TrainingWindowController {
     private ArrayList<Long> pressTimes = new ArrayList<>(0);
@@ -38,9 +46,14 @@ public class TrainingWindowController {
     }
 
     public void submitButton(ActionEvent event, TextField textField) {
+        Connection connection = ConnectionHandler.connection;
         compileKeyInformation();
         textField.clear();
         System.out.println(keyStrokeDataValues);
+        Query<Cookie> query = connection.getDatastore().createQuery(Cookie.class)
+                .field("relatesTo").equal(Universal.currentUser.getObjectId());
+        List<Cookie> results = query.asList();
+        System.out.println(results.get(0).getRelatesTo());
     }
 
     public void clearButton(ActionEvent event, TextField textField) {

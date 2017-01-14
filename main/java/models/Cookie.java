@@ -3,7 +3,6 @@ package models;
 import org.bson.types.ObjectId;
 import org.mongodb.morphia.annotations.Entity;
 import org.mongodb.morphia.annotations.Id;
-import org.mongodb.morphia.annotations.Reference;
 
 import java.util.Date;
 
@@ -11,11 +10,13 @@ import java.util.Date;
 public class Cookie {
     @Id
     private ObjectId objectId;
-    @Reference
-    private User relatesTo;
+    private ObjectId relatesTo;
     private Date creationTime;
 
-    public Cookie(User relatesTo, Date creationTime) {
+    public Cookie() {
+    }
+
+    public Cookie(ObjectId relatesTo, Date creationTime) {
         this.relatesTo = relatesTo;
         this.creationTime = creationTime;
     }
@@ -28,11 +29,11 @@ public class Cookie {
         this.objectId = objectId;
     }
 
-    public User getRelatesTo() {
+    public ObjectId getRelatesTo() {
         return relatesTo;
     }
 
-    public void setRelatesTo(User relatesTo) {
+    public void setRelatesTo(ObjectId relatesTo) {
         this.relatesTo = relatesTo;
     }
 

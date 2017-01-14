@@ -10,6 +10,7 @@ import mongoConnection.Connection;
 import mongoConnection.ConnectionHandler;
 import org.mongodb.morphia.query.Query;
 import views.SignupWindow;
+import views.Universal;
 import views.ViewHandler;
 
 import java.util.Date;
@@ -37,8 +38,9 @@ public class LoginWindowController {
                 try {
                     if (result.get(0).getPassword().equals(password)) {
                         System.out.println("Login Pass!");
-                        Cookie currentCookie = new Cookie(result.get(0), new Date());
+                        Cookie currentCookie = new Cookie(result.get(0).getObjectId(), new Date());
                         connection.getDatastore().save(currentCookie);
+                        Universal.currentUser = result.get(0);
                         ViewHandler.loginWindow.getLoginStage().close();
                         ViewHandler.trainingWindow.launch();
                     } else {
