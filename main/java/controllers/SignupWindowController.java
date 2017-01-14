@@ -1,5 +1,6 @@
 package controllers;
 
+import com.mongodb.DuplicateKeyException;
 import javafx.event.ActionEvent;
 import javafx.scene.Node;
 import javafx.scene.control.PasswordField;
@@ -50,11 +51,16 @@ public class SignupWindowController {
             }
         } else {
             User newUser = new User(email, username, password);
-            connection.getDatastore().save(newUser);
-            clearButtonAction(event, userFields);
-            System.out.println("Sign Up Done!");
+
+            try {
+                connection.getDatastore().save(newUser);
+                ViewHandler.signupWindow.getSignupStage().close();
+                clearButtonAction(event, userFields);
+                System.out.println("Sign Up Done!");
+                ViewHandler.loginWindow.getLoginStage().show();
+            } catch (DuplicateKeyException duplicateEmailException) {
+                System.out.println("Duplicate Email, Try Again with a new email!");
+            }
         }
-        ViewHandler.signupWindow.getSignupStage().close();
-        ViewHandler.loginWindow.getLoginStage().show();
     }
 }

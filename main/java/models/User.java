@@ -3,12 +3,15 @@ package models;
 import org.bson.types.ObjectId;
 import org.mongodb.morphia.annotations.Entity;
 import org.mongodb.morphia.annotations.Id;
+import org.mongodb.morphia.annotations.Indexed;
+import org.mongodb.morphia.utils.IndexDirection;
 
 @Entity(value = "users", noClassnameStored = true)
 public class User {
     @Id
     private ObjectId objectId;
     private String username;
+    @Indexed(value= IndexDirection.ASC, name="email", unique=true)
     private String email;
     private String password;
 
