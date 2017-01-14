@@ -70,7 +70,8 @@ public class TrainingWindow {
 
         trainingArea.setOnKeyPressed(event -> trainingWindowController.keyPressEvent(event, System.nanoTime()));
         trainingArea.setOnKeyReleased(event -> trainingWindowController.keyReleaseEvent(event, System.nanoTime()));
-        submitButton.setOnAction(event -> trainingWindowController.submitButton(event));
+        submitButton.setOnAction(event -> trainingWindowController.submitButton(event, trainingArea));
+        clearAll.setOnAction(event -> trainingWindowController.clearButton(event, trainingArea));
 
         trainingStage.setScene(scene);
         trainingStage.show();

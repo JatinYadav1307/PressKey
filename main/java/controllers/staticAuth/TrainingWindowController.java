@@ -1,6 +1,7 @@
 package controllers.staticAuth;
 
 import javafx.event.ActionEvent;
+import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import supportClass.KeyStrokeDataValue;
 
@@ -36,7 +37,13 @@ public class TrainingWindowController {
         }
     }
 
-    public void submitButton(ActionEvent event) {
+    public void submitButton(ActionEvent event, TextField textField) {
         compileKeyInformation();
+        textField.clear();
+        System.out.println(keyStrokeDataValues);
+    }
+
+    public void clearButton(ActionEvent event, TextField textField) {
+        textField.clear();
     }
 }
