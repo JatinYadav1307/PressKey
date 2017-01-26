@@ -4,6 +4,7 @@ import javafx.event.ActionEvent;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import models.Cookie;
+import models.Keystroke;
 import models.User;
 import mongoConnection.Connection;
 import mongoConnection.ConnectionHandler;
@@ -49,11 +50,15 @@ public class TrainingWindowController {
         Connection connection = ConnectionHandler.connection;
         compileKeyInformation();
         textField.clear();
-        System.out.println(keyStrokeDataValues);
-        Query<Cookie> query = connection.getDatastore().createQuery(Cookie.class)
-                .field("relatesTo").equal(Universal.currentUser.getObjectId());
-        List<Cookie> results = query.asList();
-        System.out.println(results.get(0).getRelatesTo());
+        Keystroke newData = new Keystroke(Universal.currentUser.getObjectId(), keyStrokeDataValues);
+        connection.getDatastore().save(newData);
+        System.out.println("Saved!");
+
+//        -------------------- Coookie TESTING -----------------------------
+//        Query<Cookie> query = connection.getDatastore().createQuery(Cookie.class)
+//                .field("relatesTo").equal(Universal.currentUser.getObjectId());
+//        List<Cookie> results = query.asList();
+//        System.out.println(results.get(0).getRelatesTo());
     }
 
     public void clearButton(ActionEvent event, TextField textField) {
