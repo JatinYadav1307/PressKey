@@ -1,6 +1,7 @@
 package mongoConnection;
 
 import com.mongodb.MongoClient;
+import com.mongodb.ServerAddress;
 import com.mongodb.client.MongoDatabase;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.Morphia;
@@ -13,7 +14,7 @@ public class Connection {
 
     public Connection()
     {
-        mongoClient = new MongoClient("localhost", 27017);
+        mongoClient = new MongoClient("localhost:27017");
         mongoDatabase = mongoClient.getDatabase("pressKeyDB");
         morphia = new Morphia();
         morphia.mapPackage("models");
