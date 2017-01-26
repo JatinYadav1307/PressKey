@@ -12,14 +12,16 @@ public class Keystroke {
     @Id
     private ObjectId objectId;
     private ObjectId relatesTo;
-    private ArrayList<KeyStrokeDataValue> keyStrokeDataValues;
+    private KeyStrokeDataValue firstKey;
+    private KeyStrokeDataValue secondKey;
 
     public Keystroke() {
     }
 
-    public Keystroke(ObjectId relatesTo, ArrayList<KeyStrokeDataValue> keyStrokeDataValues) {
+    public Keystroke(ObjectId relatesTo, KeyStrokeDataValue firstKey, KeyStrokeDataValue secondKey) {
         this.relatesTo = relatesTo;
-        this.keyStrokeDataValues = keyStrokeDataValues;
+        this.firstKey = firstKey;
+        this.secondKey = secondKey;
     }
 
     public ObjectId getObjectId() {
@@ -39,11 +41,19 @@ public class Keystroke {
         this.relatesTo = relatesTo;
     }
 
-    public ArrayList<KeyStrokeDataValue> getKeyStrokeDataValues() {
-        return keyStrokeDataValues;
+    public KeyStrokeDataValue getFirstKey() {
+        return firstKey;
     }
 
-    public void setKeyStrokeDataValues(ArrayList<KeyStrokeDataValue> keyStrokeDataValues) {
-        this.keyStrokeDataValues = keyStrokeDataValues;
+    public void setFirstKey(KeyStrokeDataValue firstKey) {
+        this.firstKey = firstKey;
+    }
+
+    public KeyStrokeDataValue getSecondKey() {
+        return secondKey;
+    }
+
+    public void setSecondKey(KeyStrokeDataValue secondKey) {
+        this.secondKey = secondKey;
     }
 }

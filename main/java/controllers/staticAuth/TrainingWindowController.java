@@ -21,6 +21,7 @@ public class TrainingWindowController {
     private ArrayList<Long> pressTimes = new ArrayList<>(0);
     private ArrayList<Long> releaseTimes = new ArrayList<>(0);
     private ArrayList<String> characters = new ArrayList<>(0);
+    private ArrayList<Keystroke> keystrokesData = new ArrayList<>(0);
     private ArrayList<KeyStrokeDataValue> keyStrokeDataValues = new ArrayList<>(0);
 
     public void keyPressEvent(KeyEvent event, long pressTime) {
@@ -44,14 +45,27 @@ public class TrainingWindowController {
                     new KeyStrokeDataValue(charsIterator.next(), pressIterator.next(), releaseIterator.next())
             );
         }
+
+        for (int i = 0; i < keyStrokeDataValues.size()-1; i++) {
+            keystrokesData.add(
+                    new Keystroke(
+                            Universal.currentUser.getObjectId(),
+                            keyStrokeDataValues.get(i),
+                            keyStrokeDataValues.get(i+1)
+                    )
+            );
+        }
     }
 
     public void submitButton(ActionEvent event, TextField textField) {
         Connection connection = ConnectionHandler.connection;
         compileKeyInformation();
         textField.clear();
-        Keystroke newData = new Keystroke(Universal.currentUser.getObjectId(), keyStrokeDataValues);
-        connection.getDatastore().save(newData);
+//        Keystroke newData = new Keystroke(Universal.currentUser.getObjectId(), keyStrokeDataValues);
+//        connection.getDatastore().save(newData);
+
+        for (Keystroke newData : keystrokesData)
+            connection.getDatastore().save(newData);
         System.out.println("Saved!");
 
 //        -------------------- Coookie TESTING -----------------------------
