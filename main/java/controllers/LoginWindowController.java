@@ -1,5 +1,6 @@
 package controllers;
 
+import com.sun.glass.ui.View;
 import javafx.event.ActionEvent;
 import javafx.scene.Node;
 import javafx.scene.control.TextField;
@@ -13,6 +14,7 @@ import views.SignupWindow;
 import views.Universal;
 import views.ViewHandler;
 
+import java.time.Instant;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -38,11 +40,23 @@ public class LoginWindowController {
                 try {
                     if (result.get(0).getPassword().equals(password)) {
                         System.out.println("Login Pass!");
-                        Cookie currentCookie = new Cookie(result.get(0).getObjectId(), new Date());
-                        connection.getDatastore().save(currentCookie);
+//                        Cookie currentCookie = new Cookie(result.get(0).getObjectId(), new Date());
+//                        connection.getDatastore().save(currentCookie);
                         Universal.currentUser = result.get(0);
-                        ViewHandler.loginWindow.getLoginStage().close();
-                        ViewHandler.trainingWindow.launch();
+                        if (Universal.currentUser.getNextTrainingSession() != null) {
+                            if (Universal.currentUser.getNextTrainingSession().before(Date.from(Instant.now()))) {
+                                ViewHandler.loginWindow.getLoginStage().close();
+                                ViewHandler.trainingWindow.launch();
+                            } else {
+                                // OTHER WINDOW IS TO BE USED HERE
+                                ViewHandler.loginWindow.getLoginStage().close();
+                            }
+                        }
+                        else
+                        {
+                            ViewHandler.loginWindow.getLoginStage().close();
+                            ViewHandler.trainingWindow.launch();
+                        }
                     } else {
                         System.out.println("Login failed!");
                     }

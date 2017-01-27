@@ -1,19 +1,26 @@
 package controllers.staticAuth;
 
+import com.mongodb.operation.UpdateOperation;
 import javafx.event.ActionEvent;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import models.Cookie;
 import models.Keystroke;
+import models.Training;
 import models.User;
 import mongoConnection.Connection;
 import mongoConnection.ConnectionHandler;
+import org.joda.time.DateTime;
 import org.mongodb.morphia.Key;
 import org.mongodb.morphia.query.Query;
+import org.mongodb.morphia.query.UpdateOperations;
 import supportClass.KeyStrokeDataValue;
 import views.Universal;
 
+import java.time.Instant;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -21,7 +28,7 @@ public class TrainingWindowController {
     private ArrayList<Long> pressTimes = new ArrayList<>(0);
     private ArrayList<Long> releaseTimes = new ArrayList<>(0);
     private ArrayList<String> characters = new ArrayList<>(0);
-    private ArrayList<Keystroke> keystrokesData = new ArrayList<>(0);
+    private ArrayList<Training> trainingData = new ArrayList<>(0);
     private ArrayList<KeyStrokeDataValue> keyStrokeDataValues = new ArrayList<>(0);
 
     public void keyPressEvent(KeyEvent event, long pressTime) {
@@ -45,11 +52,14 @@ public class TrainingWindowController {
                     new KeyStrokeDataValue(charsIterator.next(), pressIterator.next(), releaseIterator.next())
             );
         }
+        Date currentTime = Date.from(Instant.now());
 
         for (int i = 0; i < keyStrokeDataValues.size()-1; i++) {
-            keystrokesData.add(
-                    new Keystroke(
+            trainingData.add(
+                    new Training(
                             Universal.currentUser.getObjectId(),
+                            currentTime,
+                            Universal.currentUser.getNextSessionNumber(),
                             keyStrokeDataValues.get(i),
                             keyStrokeDataValues.get(i+1)
                     )
@@ -61,10 +71,20 @@ public class TrainingWindowController {
         Connection connection = ConnectionHandler.connection;
         compileKeyInformation();
         textField.clear();
-//        Keystroke newData = new Keystroke(Universal.currentUser.getObjectId(), keyStrokeDataValues);
-//        connection.getDatastore().save(newData);
 
-        for (Keystroke newData : keystrokesData)
+        Query<User> query = connection.getDatastore().createQuery(User.class)
+                .field("_id").equal(Universal.currentUser.getObjectId());
+        UpdateOperations<User> updateTrainingNumber =  connection.getDatastore().createUpdateOperations(User.class)
+                .set("nextSessionNumber", Universal.currentUser.getNextSessionNumber() + 1);
+        UpdateOperations<User> updateLastTrainingSession =  connection.getDatastore().createUpdateOperations(User.class)
+                .set("lastTrainingSession", Date.from(Instant.now()));
+        UpdateOperations<User> updateNextTrainingSession =  connection.getDatastore().createUpdateOperations(User.class)
+                .set("nextTrainingSession", Date.from(Instant.now().plusSeconds(150 * Universal.currentUser.getNextSessionNumber())));
+
+        connection.getDatastore().update(query, updateTrainingNumber);
+        connection.getDatastore().update(query, updateLastTrainingSession);
+        connection.getDatastore().update(query, updateNextTrainingSession);
+        for (Training newData : trainingData)
             connection.getDatastore().save(newData);
         System.out.println("Saved!");
 

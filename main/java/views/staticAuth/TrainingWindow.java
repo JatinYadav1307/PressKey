@@ -26,6 +26,7 @@ public class TrainingWindow {
     public void launch()
     {
         trainingStage =  new Stage();
+        trainingStage.setTitle("Training");
         StackPane stackPane = new StackPane();
         Scene scene = new Scene(stackPane, 600, 300);
 //        scene.setFill(Color.TRANSPARENT);

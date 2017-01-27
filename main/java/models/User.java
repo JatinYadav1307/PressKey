@@ -6,6 +6,8 @@ import org.mongodb.morphia.annotations.Id;
 import org.mongodb.morphia.annotations.Indexed;
 import org.mongodb.morphia.utils.IndexDirection;
 
+import java.util.Date;
+
 @Entity(value = "users", noClassnameStored = true)
 public class User {
     @Id
@@ -14,6 +16,25 @@ public class User {
     @Indexed(value= IndexDirection.ASC, name="email", unique=true)
     private String email;
     private String password;
+    private Date lastTrainingSession;
+    private Date nextTrainingSession;
+    private int nextSessionNumber;
+
+    public Date getLastTrainingSession() {
+        return lastTrainingSession;
+    }
+
+    public void setLastTrainingSession(Date lastTrainingSession) {
+        this.lastTrainingSession = lastTrainingSession;
+    }
+
+    public Date getNextTrainingSession() {
+        return nextTrainingSession;
+    }
+
+    public void setNextTrainingSession(Date nextTrainingSession) {
+        this.nextTrainingSession = nextTrainingSession;
+    }
 
     @Override
     public String toString() {
@@ -28,6 +49,17 @@ public class User {
         this.username = username;
         this.email = email;
         this.password = password;
+        this.nextSessionNumber = 1;
+        this.lastTrainingSession = null;
+        this.nextTrainingSession = null;
+    }
+
+    public int getNextSessionNumber() {
+        return nextSessionNumber;
+    }
+
+    public void setNextSessionNumber(int nextSessionNumber) {
+        this.nextSessionNumber = nextSessionNumber;
     }
 
     public ObjectId getObjectId() {
